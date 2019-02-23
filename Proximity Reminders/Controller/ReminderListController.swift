@@ -8,4 +8,14 @@
 
 import UIKit
 
-class ReminderListController: UITableViewController {}
+class ReminderListController: UITableViewController {
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+
+        
+    }
+}
+
+

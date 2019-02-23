@@ -24,9 +24,6 @@
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="59.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
-                                <connections>
-                                    <segue destination="LqY-tA-zxi" kind="show" id="SOp-zm-PI0"/>
-                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -159,11 +156,14 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EKk-Zf-gJ1">
-                                                    <rect key="frame" x="166" y="5.5" width="193" height="33"/>
+                                                    <rect key="frame" x="256" y="5.5" width="103" height="33"/>
                                                     <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
-                                                    <state key="normal" title="Castlewellan Forest Park">
+                                                    <state key="normal" title="Add Location">
                                                         <color key="titleColor" red="0.1764705882" green="0.59607843140000005" blue="0.85490196080000003" alpha="1" colorSpace="calibratedRGB"/>
                                                     </state>
+                                                    <connections>
+                                                        <action selector="selectLocation" destination="LqY-tA-zxi" eventType="touchUpInside" id="IHZ-b2-0kh"/>
+                                                    </connections>
                                                 </button>
                                             </subviews>
                                             <constraints>
@@ -187,7 +187,7 @@
                         <outlet property="alertTypeSegment" destination="lLq-ze-gqE" id="9gh-WI-bsR"/>
                         <outlet property="descriptionTextView" destination="ueQ-6S-S9e" id="Ssr-6m-klW"/>
                         <outlet property="locationButton" destination="EKk-Zf-gJ1" id="wmL-XG-yjb"/>
-                        <outlet property="mapView" destination="swY-oP-r3k" id="yxD-UB-ib0"/>
+                        <outlet property="mapView" destination="6P0-6O-Cxj" id="Zkb-hf-Tpd"/>
                         <outlet property="repeatToggle" destination="xiO-Vc-lZG" id="giq-bu-fWz"/>
                     </connections>
                 </tableViewController>
@@ -214,7 +214,6 @@
         <!--Navigation Controller-->
         <scene sceneID="Nxu-nq-9Su">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="VDg-z7-Xi5" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="qba-Ia-LrK" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="IQQ-iy-DC3">
@@ -226,11 +225,9 @@
                         <segue destination="LqY-tA-zxi" kind="relationship" relationship="rootViewController" id="7y4-Le-buq"/>
                     </connections>
                 </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="VDg-z7-Xi5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-10" y="867"/>
         </scene>
     </scenes>
-    <inferredMetricsTieBreakers>
-        <segue reference="SOp-zm-PI0"/>
-    </inferredMetricsTieBreakers>
 </document>
