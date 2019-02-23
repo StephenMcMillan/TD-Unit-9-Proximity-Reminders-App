@@ -70,7 +70,6 @@ class LocationSearchController: UITableViewController {
         
         let location = locations[indexPath.row]
         cell.textLabel?.text = location.name
-        
         cell.detailTextLabel?.text = location.placemark.title
         
         return cell

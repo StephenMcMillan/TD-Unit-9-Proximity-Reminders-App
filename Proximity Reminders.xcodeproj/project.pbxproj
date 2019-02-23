@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		696EFD492220CD07008DC159 /* BasicDetailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696EFD482220CD07008DC159 /* BasicDetailCell.swift */; };
+		696EFD4B22217220008DC159 /* ProximityMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696EFD4A22217220008DC159 /* ProximityMap.swift */; };
+		696EFD4D22217F55008DC159 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696EFD4C22217F55008DC159 /* LocationManager.swift */; };
+		696EFD4F22218B2C008DC159 /* PermissionsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696EFD4E22218B2C008DC159 /* PermissionsController.swift */; };
 		69A81CB32220510D00E4F684 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69A81CB22220510D00E4F684 /* AppDelegate.swift */; };
 		69A81CB82220510D00E4F684 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 69A81CB62220510D00E4F684 /* Main.storyboard */; };
 		69A81CBA2220511300E4F684 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 69A81CB92220511300E4F684 /* Assets.xcassets */; };
@@ -26,6 +29,9 @@
 
 /* Begin PBXFileReference section */
 		696EFD482220CD07008DC159 /* BasicDetailCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicDetailCell.swift; sourceTree = "<group>"; };
+		696EFD4A22217220008DC159 /* ProximityMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProximityMap.swift; sourceTree = "<group>"; };
+		696EFD4C22217F55008DC159 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
+		696EFD4E22218B2C008DC159 /* PermissionsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionsController.swift; sourceTree = "<group>"; };
 		69A81CAF2220510D00E4F684 /* Proximity Reminders.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Proximity Reminders.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		69A81CB22220510D00E4F684 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		69A81CB72220510D00E4F684 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -92,6 +98,8 @@
 				69A81CD72220797100E4F684 /* CoreDataManager.swift */,
 				69A81CD9222080EA00E4F684 /* AlertHelper.swift */,
 				69A81CDB2220819600E4F684 /* ProximityReminderError.swift */,
+				696EFD4A22217220008DC159 /* ProximityMap.swift */,
+				696EFD4C22217F55008DC159 /* LocationManager.swift */,
 			);
 			path = "Proximity Reminders";
 			sourceTree = "<group>";
@@ -120,6 +128,7 @@
 				69A81CC82220707100E4F684 /* ReminderListController.swift */,
 				69A81CCA2220707E00E4F684 /* ReminderDetailController.swift */,
 				696EFD472220CCB3008DC159 /* Location Selection */,
+				696EFD4E22218B2C008DC159 /* PermissionsController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -207,6 +216,7 @@
 			files = (
 				69A81CD62220786100E4F684 /* Location.swift in Sources */,
 				69A81CB32220510D00E4F684 /* AppDelegate.swift in Sources */,
+				696EFD4F22218B2C008DC159 /* PermissionsController.swift in Sources */,
 				69A81CCB2220707F00E4F684 /* ReminderDetailController.swift in Sources */,
 				69A81CC92220707100E4F684 /* ReminderListController.swift in Sources */,
 				69A81CE22220A6B000E4F684 /* LocationSuggestionsController.swift in Sources */,
@@ -215,7 +225,9 @@
 				69A81CE02220A64F00E4F684 /* LocationSearchController.swift in Sources */,
 				69A81CCE2220764500E4F684 /* Reminder.xcdatamodeld in Sources */,
 				696EFD492220CD07008DC159 /* BasicDetailCell.swift in Sources */,
+				696EFD4D22217F55008DC159 /* LocationManager.swift in Sources */,
 				69A81CD82220797100E4F684 /* CoreDataManager.swift in Sources */,
+				696EFD4B22217220008DC159 /* ProximityMap.swift in Sources */,
 				69A81CD22220780B00E4F684 /* Reminder.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
