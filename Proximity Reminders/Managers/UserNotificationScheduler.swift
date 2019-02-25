@@ -1,5 +1,5 @@
 //
-//  UserNotificationManager.swift
+//  UserNotificationScheduler.swift
 //  Proximity Reminders
 //
 //  Created by Stephen McMillan on 25/02/2019.
@@ -49,7 +49,7 @@ extension UserNotificationScheduler {
         region.notifyOnExit = reminder.alertWhenLeaving
         region.notifyOnEntry = !reminder.alertWhenLeaving
         
-        let notificationTrigger = UNLocationNotificationTrigger(region: region, repeats: true)
+        let notificationTrigger = UNLocationNotificationTrigger(region: region, repeats: reminder.repeats)
         
         // TODO: add the uuid to the completion to core data can save the UUID
         // UUID allows the notification to be uniquely identified at a later point and unscheduled

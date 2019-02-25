@@ -25,8 +25,9 @@ extension Reminder {
     }
 
     @NSManaged public var uuid: UUID // This gets set once the notification has been scheduled by the system.
+    @NSManaged public var repeats: Bool
     @NSManaged public var reminderDescription: String
-    @NSManaged public var dateCreated: NSDate?
+    @NSManaged public var dateCreated: NSDate
     @NSManaged public var alertWhenLeaving: Bool
     @NSManaged public var location: Location
     
@@ -39,12 +40,13 @@ extension Reminder {
     ///   - mapItem: a MKMapItem allowing for the easy creation of a location object
     ///   - context: the managed object context into which the object should be inserted
     /// - Returns: A reference to the newly created reminder.
-    class func create(withDescription description: String, alertType: AlertType, fromMapItem mapItem: MKMapItem, inContext context: NSManagedObjectContext) -> Reminder {
+    class func create(withDescription description: String, alertType: AlertType, repeats: Bool, fromMapItem mapItem: MKMapItem, inContext context: NSManagedObjectContext) -> Reminder {
         
         let newReminder = Reminder(context: context)
         newReminder.reminderDescription = description
         newReminder.alertWhenLeaving = (alertType == .leaving) ? true : false
         newReminder.dateCreated = Date() as NSDate
+        newReminder.repeats = repeats
         
         let reminderLocation = Location(context: context)
         reminderLocation.name = mapItem.name ?? "Unknown"

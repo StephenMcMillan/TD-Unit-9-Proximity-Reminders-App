@@ -69,7 +69,7 @@ class ReminderDetailController: UITableViewController {
     func configureMapView(withName name: String?, andCoordinate coordinate: CLLocationCoordinate2D) {
         mapView.dropPin(withName: name, at: coordinate)
         mapView.drawCirlce(withCenter: coordinate)
-        mapView.setRegion(MKCoordinateRegion(center: coordinate, latitudinalMeters: 250, longitudinalMeters: 250), animated: true)
+        mapView.setRegion(MKCoordinateRegion(center: coordinate, latitudinalMeters: 200, longitudinalMeters: 200), animated: true)
     }
     
     
@@ -105,7 +105,7 @@ class ReminderDetailController: UITableViewController {
         let alertType: AlertType = (alertTypeSegment.selectedSegmentIndex == 0) ? .arriving : .leaving
         
         // Creates a new reminder and adds it to the current object context.
-        let reminder = Reminder.create(withDescription: descriptionTextView.text, alertType: alertType, fromMapItem: mapItem, inContext: CoreDataManager.sharedManager.managedObjectContext)
+        let reminder = Reminder.create(withDescription: descriptionTextView.text, alertType: alertType, repeats: repeatToggle.isOn, fromMapItem: mapItem, inContext: CoreDataManager.sharedManager.managedObjectContext)
         
         scheduleLocationNotification(forReminder: reminder) { [weak self] (result) in
             switch result {

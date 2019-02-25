@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14460.32" systemVersion="18A391" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14490.78" systemVersion="18A391" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Location" representedClassName=".Location" syncable="YES">
         <attribute name="latitude" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="longitude" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
@@ -10,11 +10,12 @@
         <attribute name="alertWhenLeaving" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="dateCreated" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="reminderDescription" attributeType="String" syncable="YES"/>
+        <attribute name="repeats" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="uuid" attributeType="UUID" usesScalarValueType="NO" syncable="YES"/>
         <relationship name="location" maxCount="1" deletionRule="Cascade" destinationEntity="Location" inverseName="reminder" inverseEntity="Location" syncable="YES"/>
     </entity>
     <elements>
         <element name="Location" positionX="-54" positionY="18" width="128" height="105"/>
-        <element name="Reminder" positionX="-63" positionY="-18" width="128" height="120"/>
+        <element name="Reminder" positionX="-63" positionY="-18" width="128" height="135"/>
     </elements>
 </model>

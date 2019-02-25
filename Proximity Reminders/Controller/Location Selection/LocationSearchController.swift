@@ -56,6 +56,9 @@ class LocationSearchController: UITableViewController {
         navigationItem.hidesSearchBarWhenScrolling = false
         title = "Select a Location"
         definesPresentationContext = true
+        
+        let cancelBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(LocationSearchController.cancel))
+        navigationItem.rightBarButtonItem = cancelBarButtonItem
     }
     
     
@@ -118,6 +121,10 @@ class LocationSearchController: UITableViewController {
             
             self?.locations = response?.mapItems ?? []
         }
+    }
+    
+    @objc func cancel() {
+        navigationController?.dismiss(animated: true, completion: nil)
     }
 }
 

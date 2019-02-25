@@ -56,7 +56,7 @@ extension MKMapView {
     static func proximityCircleRenderer(for overlay: MKOverlay) -> MKOverlayRenderer {
         
         let renderer = MKCircleRenderer(overlay: overlay)
-        renderer.strokeColor = UIColor.cyan
+        renderer.strokeColor = #colorLiteral(red: 0.3618691266, green: 0.7961515188, blue: 0.6061794758, alpha: 1)
         renderer.lineWidth = 3.0
         return renderer
     }
