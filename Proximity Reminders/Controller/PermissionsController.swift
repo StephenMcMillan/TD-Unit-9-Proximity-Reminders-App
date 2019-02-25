@@ -9,7 +9,7 @@
 import UIKit
 import UserNotifications
 
-class PermissionsController: UIViewController {
+class PermissionsController: UIViewController, UserNotificationScheduler {
     
     // MARK: Interface Builder Outlets
     @IBOutlet weak var locationAccessButton: UIButton!
@@ -20,7 +20,6 @@ class PermissionsController: UIViewController {
     // MARK: Propertie
     static let storyboardIdentifier = String(describing: PermissionsController.self)
     let locationManager = LocationManager()
-    let notificationManager = UserNotificationManager()
     
     // MARK: Initial Load
     override func viewDidLoad() {
@@ -34,9 +33,10 @@ class PermissionsController: UIViewController {
         configureLocationButton()
         
         // When the permissions view first loads, check whether notifications have been authorized or not.
-        notificationManager.isAuthorized { [weak self] (isAuthorized) in
-            self?.configureNotificationButton(isAuthorized: isAuthorized)
+        getNotificationAuthorizationStatus { [weak self] (status) in
+            self?.configureNotificationButton(isAuthorized: status == UNAuthorizationStatus.authorized)
         }
+        
     }
     
     // MARK: Location Authorization
@@ -69,18 +69,19 @@ class PermissionsController: UIViewController {
         // Makes a call to location manager to request notification permissions and updates the button when the
         
         // If the user tries to allow notifications and they've already denied previously then this button is not going to work so it is neccessary to display an alert.
-        notificationManager.authorizationStatus { [weak self] (authorizationStatus) in
+        
+        getNotificationAuthorizationStatus { [weak self] (authorizationStatus) in
             guard authorizationStatus != .denied else {
                 self?.showErrorAlert(for: ProximityReminderError.notificationsDeniedByUser)
                 return
             }
             
-            self?.notificationManager.requestNotificationPermission() { [weak self] (isAuthorized, error) in
+            self?.requestNotificationPermissions(completion: { [weak self] (isAuthorized, error) in
                 if let error = error {
                     self?.showErrorAlert(for: error)
                 }
                 self?.configureNotificationButton(isAuthorized: isAuthorized)
-            }
+            })
         }
     }
     
@@ -93,29 +94,5 @@ class PermissionsController: UIViewController {
     // Deint to remove notification center observers
     deinit {
         NotificationCenter.default.removeObserver(self, name: LocationManager.LocationWhenInUsePermissionGranted, object: nil)
-    }
-}
-// TODO: Separate class
-class UserNotificationManager: NSObject {
-
-    let userNotificationCenter = UNUserNotificationCenter.current()
-    
-    func requestNotificationPermission(completion: @escaping (Bool, Error?) -> Void) {
-        
-        userNotificationCenter.requestAuthorization(options: [.alert], completionHandler: completion)
-    }
-    
-    // Gets the more general authorization status
-    func authorizationStatus(completion: @escaping (UNAuthorizationStatus) -> Void) {
-        userNotificationCenter.getNotificationSettings { (notificationSettings) in
-            completion(notificationSettings.authorizationStatus)
-        }
-    }
-    
-    // Helper to determine if notifications are allowed
-    func isAuthorized(completion: @escaping (Bool) -> Void) {
-        authorizationStatus { (authorizationStatus) in
-            completion(authorizationStatus == .authorized)
-        }
     }
 }

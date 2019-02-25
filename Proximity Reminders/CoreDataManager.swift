@@ -35,5 +35,11 @@ class CoreDataManager {
         return self.persistentContainer.viewContext
     }()
     
+    func saveChanges() throws {
+        if managedObjectContext.hasChanges {
+            try managedObjectContext.save()
+        }
+    }
+    
     
 }

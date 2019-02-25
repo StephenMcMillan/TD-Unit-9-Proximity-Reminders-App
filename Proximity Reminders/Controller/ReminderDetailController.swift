@@ -11,6 +11,7 @@
 
 import UIKit
 import MapKit
+import UserNotifications
 
 class ReminderDetailController: UITableViewController {
     
@@ -34,13 +35,6 @@ class ReminderDetailController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
-        let permissionsController = storyboard!.instantiateViewController(withIdentifier: PermissionsController.storyboardIdentifier)
-        present(permissionsController, animated: true, completion: nil)
-        
-        return
-        
-        
         if reminder == nil {
             let leftBarButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(ReminderDetailController.cancelReminder))
             let rightBarButton = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(ReminderDetailController.saveReminder))
@@ -49,6 +43,8 @@ class ReminderDetailController: UITableViewController {
         }
         
         mapView.delegate = self
+        
+        checkAuthorization()
     }
     
     // MARK: Location Related Logic
@@ -106,8 +102,36 @@ class ReminderDetailController: UITableViewController {
         
         // By this point in the validation, there should be enough info to schedule and save a reminder.
         
+        let alertType: AlertType = (alertTypeSegment.selectedSegmentIndex == 0) ? .arriving : .leaving
         
-
+        // Creates a new reminder and adds it to the current object context.
+        let reminder = Reminder.create(withDescription: descriptionTextView.text, alertType: alertType, fromMapItem: mapItem, inContext: CoreDataManager.sharedManager.managedObjectContext)
+        
+        scheduleLocationNotification(forReminder: reminder) { [weak self] (result) in
+            switch result {
+            case .success(let uuid):
+                reminder.uuid = uuid
+                
+                // If the reminder was scheduled by the system successfully then save the UUID of that notification as the reminder UUID then try to save the object to core data.
+                do {
+                    print("SAVE SUCCESSFUL.")
+                    try CoreDataManager.sharedManager.saveChanges()
+                    self?.navigationController?.dismiss(animated: true, completion: nil) // Dismiss the nav controller that was presented modally.
+                } catch {
+                    print("Notificatio succeeded. Core data failed.")
+                    // If soemthing goes wrong here the notification is probably still scheduled so that will need to be unscheduled.
+                    self?.unscheduleLocationNotification(forIdentifier: uuid.uuidString)
+                    self?.showErrorAlert(for: error)
+                }
+                
+            case .failed(let error):
+                print("Notif scheduling failed")
+                self?.showErrorAlert(for: error) // If something went wrong, break the save proccess and alert the user.
+                return
+            }
+        
+            
+        }
         
     }
     
@@ -115,7 +139,6 @@ class ReminderDetailController: UITableViewController {
     @objc func cancelReminder() {
         navigationController?.dismiss(animated: true, completion: nil)
     }
-  
 }
 
 extension ReminderDetailController: LocationSearchControllerDelegate {
@@ -130,5 +153,23 @@ extension ReminderDetailController: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         // Calls a custom class method that gets the renderer
         return MKMapView.proximityCircleRenderer(for: overlay)
+    }
+}
+
+extension ReminderDetailController: UserNotificationScheduler {
+    // MARK: Check Location & Notification Authorization
+    func checkAuthorization() {
+        // Checks the user notification settings and the location permissions. If either are not allowed the user gets a permissions pop-up.
+        getNotificationAuthorizationStatus { [weak self] (authorizationStatus) in
+            guard authorizationStatus == .authorized && LocationManager.isAuthorized else {
+                self?.presentPermissionsController()
+                return
+            }
+        }
+    }
+    
+    private func presentPermissionsController() {
+        let permissionsController = storyboard!.instantiateViewController(withIdentifier: PermissionsController.storyboardIdentifier)
+        present(permissionsController, animated: true, completion: nil)
     }
 }

@@ -7,13 +7,20 @@
 //
 
 import UIKit
+import UserNotifications
 
 class ReminderListController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-
+        UNUserNotificationCenter.current().getDeliveredNotifications { (notifications) in
+            print("DELIVERED: \(notifications.count)")
+        }
+        
+        UNUserNotificationCenter.current().getPendingNotificationRequests(completionHandler: { (request) in
+            print(request)
+        })
         
     }
 }

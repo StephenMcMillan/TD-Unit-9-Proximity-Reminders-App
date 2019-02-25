@@ -10,10 +10,11 @@
         <attribute name="alertWhenLeaving" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="dateCreated" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="reminderDescription" attributeType="String" syncable="YES"/>
+        <attribute name="uuid" attributeType="UUID" usesScalarValueType="NO" syncable="YES"/>
         <relationship name="location" maxCount="1" deletionRule="Cascade" destinationEntity="Location" inverseName="reminder" inverseEntity="Location" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Reminder" positionX="-63" positionY="-18" width="128" height="105"/>
         <element name="Location" positionX="-54" positionY="18" width="128" height="105"/>
+        <element name="Reminder" positionX="-63" positionY="-18" width="128" height="120"/>
     </elements>
 </model>
