@@ -31,20 +31,34 @@ class ReminderDetailController: UITableViewController {
             configureMapView(with: mapItem)
         }
     }
-        
+    
+    // MARK: View Set-up
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if reminder == nil {
-            let leftBarButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(ReminderDetailController.cancelReminder))
-            let rightBarButton = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(ReminderDetailController.saveReminder))
-            navigationItem.leftBarButtonItem = leftBarButton
-            navigationItem.rightBarButtonItem = rightBarButton
-        }
+        let rightBarButton = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(ReminderDetailController.saveReminder))
+        navigationItem.rightBarButtonItem = rightBarButton
         
         mapView.delegate = self
-        
         checkAuthorization()
+        
+        // Specific setup code that depends on whether a reminder has been set or not
+        if let reminder = reminder {
+            
+            configure(with: reminder)
+        } else {
+            let leftBarButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(ReminderDetailController.cancelReminder))
+            navigationItem.leftBarButtonItem = leftBarButton
+        }
+    }
+    
+    // Takes an existing reminder and sets-up the view to display the details of that reminder
+    func configure(with reminder: Reminder) {
+        configureMapView(withName: reminder.location.name, andCoordinate: reminder.location.coordinate)
+        descriptionTextView.text = reminder.reminderDescription
+        alertTypeSegment.selectedSegmentIndex = (reminder.alertWhenLeaving) ? 1 : 0
+        repeatToggle.isOn = reminder.repeats
+        locationButton.setTitle(reminder.location.name, for: .normal)
     }
     
     // MARK: Location Related Logic
@@ -137,7 +151,12 @@ class ReminderDetailController: UITableViewController {
     
     /// If the controller is presented in the add new reminder state, a left bar button item 'cancel' call this func to dimiss the view and it's nav controller
     @objc func cancelReminder() {
-        navigationController?.dismiss(animated: true, completion: nil)
+        if presentingViewController is UINavigationController {
+            navigationController?.dismiss(animated: true, completion: nil)
+        } else {
+            navigationController?.popViewController(animated: true)
+        }
+        
     }
 }
 

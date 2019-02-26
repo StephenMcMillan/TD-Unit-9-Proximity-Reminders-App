@@ -8,6 +8,7 @@
 //
 
 import Foundation
+import MapKit
 import CoreData
 
 public class Location: NSManagedObject {}
@@ -22,4 +23,8 @@ extension Location {
     @NSManaged public var latitude: Double
     @NSManaged public var longitude: Double
     @NSManaged public var reminder: Reminder
+    
+    var coordinate: CLLocationCoordinate2D {
+        return CLLocationCoordinate2D(latitude: self.latitude, longitude: self.longitude)
+    }
 }

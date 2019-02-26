@@ -57,6 +57,21 @@ class ReminderListController: UITableViewController {
         
         return cell
     }
+    
+    // MARK: Table View Delegate
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    
+        if segue.identifier == "ShowReminderDetail", let selectedTableViewIndex = tableView.indexPathForSelectedRow {
+            // These casts are forced given that execution can't continue beyond this point if we don't have a detail view.
+            let reminderDetailController = segue.destination as! ReminderDetailController
+            
+            reminderDetailController.reminder = fetchedResultsController.object(at: selectedTableViewIndex)
+        }
+    }
 }
 
 
