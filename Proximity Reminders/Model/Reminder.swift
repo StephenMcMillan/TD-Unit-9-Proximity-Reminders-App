@@ -49,9 +49,7 @@ extension Reminder {
         newReminder.repeats = repeats
         
         let reminderLocation = Location(context: context)
-        reminderLocation.name = mapItem.name ?? "Unknown"
-        reminderLocation.longitude = mapItem.placemark.coordinate.longitude
-        reminderLocation.latitude = mapItem.placemark.coordinate.latitude
+        reminderLocation.update(using: mapItem)
         
         newReminder.location = reminderLocation
         return newReminder

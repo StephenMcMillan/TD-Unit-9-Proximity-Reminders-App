@@ -22,23 +22,47 @@ class ReminderListController: UITableViewController {
         let fetchRequest: NSFetchRequest<Reminder> = Reminder.fetchRequest()
         let dateSortDescriptor = NSSortDescriptor(key: "dateCreated", ascending: false)
         fetchRequest.sortDescriptors = [dateSortDescriptor]
-        return NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: CoreDataManager.sharedManager.managedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
+        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: CoreDataManager.sharedManager.managedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
+        fetchedResultsController.delegate = self
+        return fetchedResultsController
     }()
     
+    // MARK: Setup Code
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        UNUserNotificationCenter.current().getPendingNotificationRequests { (requests) in
+            for request in requests {
+                print("REQUEST: \(request)")
+            }
+        }
         
         do {
             try fetchedResultsController.performFetch()
             tableView.reloadData()
+            configureStats()
         } catch {
             showErrorAlert(for: error)
         }
     }
     
+    func configureStats() {
+        var onArrivalCount: Int = 0
+        var onLeavingCount: Int = 0
+            
+        self.fetchedResultsController.fetchedObjects?.forEach({ (reminder) in
+            if reminder.alertWhenLeaving {
+                onLeavingCount += 1
+            } else {
+                onArrivalCount += 1
+            }
+        })
+        self.whenArrivingLabel.text = "\(onArrivalCount)"
+        self.whenDepartingLabel.text = "\(onLeavingCount)"
+    }
+    
     // MARK: Table View Datasource
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print(fetchedResultsController.fetchedObjects?.count)
         return fetchedResultsController.fetchedObjects?.count ?? 0
     }
     
@@ -71,6 +95,39 @@ class ReminderListController: UITableViewController {
             
             reminderDetailController.reminder = fetchedResultsController.object(at: selectedTableViewIndex)
         }
+    }
+}
+
+extension ReminderListController: NSFetchedResultsControllerDelegate {
+    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        tableView.beginUpdates()
+    }
+    
+    // Called when an object is modified by the user or deleted etc.
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        
+        switch type {
+        case .insert:
+            if let newIndexPath = newIndexPath {
+                tableView.insertRows(at: [newIndexPath], with: .automatic)
+            }
+        case .delete:
+            if let indexPath = indexPath {
+                tableView.deleteRows(at: [indexPath] , with: .automatic)
+            }
+        case .update:
+            if let indexPath = indexPath {
+                tableView.reloadRows(at: [indexPath], with: .automatic)
+            }
+        case .move: // Not required.
+            break
+        }
+        
+        configureStats()
+    }
+    
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        tableView.endUpdates()
     }
 }
 

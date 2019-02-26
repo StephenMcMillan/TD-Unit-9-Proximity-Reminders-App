@@ -29,27 +29,37 @@ class ReminderDetailController: UITableViewController {
     var mapItem: MKMapItem? {
         didSet {
             configureMapView(with: mapItem)
+            reminder?.location.update(using: mapItem)
         }
     }
     
-    // MARK: View Set-up
+    var movingForwards: Bool = false
+    
+    
+    // MARK: View Set-up / Configuration
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        let rightBarButton = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(ReminderDetailController.saveReminder))
-        navigationItem.rightBarButtonItem = rightBarButton
         
         mapView.delegate = self
         checkAuthorization()
         
         // Specific setup code that depends on whether a reminder has been set or not
         if let reminder = reminder {
-            
             configure(with: reminder)
         } else {
-            let leftBarButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(ReminderDetailController.cancelReminder))
-            navigationItem.leftBarButtonItem = leftBarButton
+            configureBarButtonsForNewEntry()
         }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        movingForwards = false
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        guard reminder != nil && !movingForwards else { return }
+        updateExistingReminder()
     }
     
     // Takes an existing reminder and sets-up the view to display the details of that reminder
@@ -63,6 +73,7 @@ class ReminderDetailController: UITableViewController {
     
     // MARK: Location Related Logic
     @IBAction func selectLocation() {
+        movingForwards = true
         showLocationPicker()
     }
     
@@ -86,17 +97,11 @@ class ReminderDetailController: UITableViewController {
         mapView.setRegion(MKCoordinateRegion(center: coordinate, latitudinalMeters: 200, longitudinalMeters: 200), animated: true)
     }
     
-    
+    // MARK: Save a New Reminder
     /// Validates the input fields then attempts to schedule a reminder and subsequently save a reminder to core data
     @objc func saveReminder() {
         
         print("Saving...")
-        
-        // In order to make a valid save there must be:
-        // - A valid reminder description >0 length
-        // - A valid arrive/leave alert type
-        // - A valid repeat value, will default to false
-        // - A valid location.
         
         // 1. Check there is a valid description for the reminder.
         guard descriptionTextView.text.count > 0 else {
@@ -108,14 +113,12 @@ class ReminderDetailController: UITableViewController {
         // 3. Repeat value will be false by default.
         
         // 4. Check there is a valid location.
-        // TODO: Check location property and validate.
         guard let mapItem = mapItem else {
             showErrorAlert(for: ProximityReminderError.missingReminderLocation)
             return
         }
         
         // By this point in the validation, there should be enough info to schedule and save a reminder.
-        
         let alertType: AlertType = (alertTypeSegment.selectedSegmentIndex == 0) ? .arriving : .leaving
         
         // Creates a new reminder and adds it to the current object context.
@@ -123,9 +126,7 @@ class ReminderDetailController: UITableViewController {
         
         scheduleLocationNotification(forReminder: reminder) { [weak self] (result) in
             switch result {
-            case .success(let uuid):
-                reminder.uuid = uuid
-                
+            case .success:
                 // If the reminder was scheduled by the system successfully then save the UUID of that notification as the reminder UUID then try to save the object to core data.
                 do {
                     print("SAVE SUCCESSFUL.")
@@ -134,7 +135,7 @@ class ReminderDetailController: UITableViewController {
                 } catch {
                     print("Notificatio succeeded. Core data failed.")
                     // If soemthing goes wrong here the notification is probably still scheduled so that will need to be unscheduled.
-                    self?.unscheduleLocationNotification(forIdentifier: uuid.uuidString)
+                    self?.unscheduleLocationNotification(forIdentifier: reminder.uuid.uuidString)
                     self?.showErrorAlert(for: error)
                 }
                 
@@ -143,20 +144,60 @@ class ReminderDetailController: UITableViewController {
                 self?.showErrorAlert(for: error) // If something went wrong, break the save proccess and alert the user.
                 return
             }
-        
-            
         }
-        
     }
     
-    /// If the controller is presented in the add new reminder state, a left bar button item 'cancel' call this func to dimiss the view and it's nav controller
-    @objc func cancelReminder() {
-        if presentingViewController is UINavigationController {
-            navigationController?.dismiss(animated: true, completion: nil)
-        } else {
-            navigationController?.popViewController(animated: true)
+    // MARK: Updating an Existing Reminder
+    func updateExistingReminder() {
+        // If the user made any changes, save them and reschule their notifications
+        guard CoreDataManager.sharedManager.managedObjectContext.hasChanges, let reminder = reminder else {
+            print("no changes to update...")
+            return
         }
         
+        print("chanegs present, updating....")
+        unscheduleLocationNotification(forIdentifier: reminder.uuid.uuidString)
+        scheduleLocationNotification(forReminder: reminder) { [weak self] (schedulingResult) in
+            // NOTE: This method gets called as the view is getting dismissed because the user pressed the back button so any errors will have to be sent to the parent.
+            switch schedulingResult {
+            case .success:
+                do {
+                    try CoreDataManager.sharedManager.saveChanges()
+                    print("update succeeded")
+                } catch {
+                     self?.parent?.showErrorAlert(for: error)
+                }
+                
+            case .failed(let error):
+                self?.parent?.showErrorAlert(for: error)
+            }
+        }
+    }
+
+    @IBAction func alertTypeValueChanged(_ sender: UISegmentedControl) {
+        reminder?.alertWhenLeaving = (sender.selectedSegmentIndex == 1) ? true : false // Arrive is position 0, leave is position 1.
+    }
+    
+    @IBAction func repeatToggleChanged(_ sender: UISwitch) {
+        reminder?.repeats = sender.isOn
+    }
+    
+    /// MARK: Navigation Code
+    func configureBarButtonsForNewEntry() {
+        let rightBarButton = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(ReminderDetailController.saveReminder))
+        navigationItem.rightBarButtonItem = rightBarButton
+        let leftBarButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(ReminderDetailController.dismissNewReminder))
+        navigationItem.leftBarButtonItem = leftBarButton
+    }
+    
+    @objc func dismissNewReminder() {
+        navigationController?.dismiss(animated: true, completion: nil)
+    }
+}
+
+extension ReminderDetailController: UITextViewDelegate {
+    func textViewDidChange(_ textView: UITextView) {
+        reminder?.reminderDescription = textView.text
     }
 }
 

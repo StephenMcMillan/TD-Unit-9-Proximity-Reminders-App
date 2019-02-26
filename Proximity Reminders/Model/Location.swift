@@ -27,4 +27,13 @@ extension Location {
     var coordinate: CLLocationCoordinate2D {
         return CLLocationCoordinate2D(latitude: self.latitude, longitude: self.longitude)
     }
+    
+    func update(using mapItem: MKMapItem?) {
+        
+        guard let mapItem = mapItem else { return }
+        
+        self.name = mapItem.name ?? "Unkown"
+        self.latitude = mapItem.placemark.coordinate.latitude
+        self.longitude = mapItem.placemark.coordinate.longitude
+    }
 }

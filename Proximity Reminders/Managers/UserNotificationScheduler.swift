@@ -11,7 +11,7 @@ import UserNotifications
 import MapKit
 
 enum SchedulingResult {
-    case success(UUID)
+    case success
     case failed(Error)
 }
 
@@ -59,7 +59,8 @@ extension UserNotificationScheduler {
             if let error = error {
                 completion(.failed(error))
             } else {
-                completion(.success(uuid))
+                reminder.uuid = uuid
+                completion(.success)
             }
         }
     }

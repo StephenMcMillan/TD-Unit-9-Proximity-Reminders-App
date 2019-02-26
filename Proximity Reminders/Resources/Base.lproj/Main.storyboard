@@ -156,7 +156,7 @@
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="4" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4ai-nq-blk">
                                                             <rect key="frame" x="68.333333333333329" y="0.0" width="18.666666666666671" height="33.666666666666664"/>
                                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="28"/>
-                                                            <color key="textColor" red="0.58642548322677612" green="0.47082257270812988" blue="0.94122713804244995" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                            <color key="textColor" red="0.47916167974472046" green="0.78706842660903931" blue="0.61959236860275269" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="On Arrival" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jvq-fV-t0a">
@@ -189,7 +189,6 @@
                                     </subviews>
                                     <color key="backgroundColor" red="0.25216588377952576" green="0.27380341291427612" blue="0.44315898418426514" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                     <constraints>
-                                        <constraint firstAttribute="height" constant="70" id="SZ2-rK-FzA"/>
                                         <constraint firstAttribute="trailing" secondItem="9Lq-tT-Bb6" secondAttribute="trailing" constant="20" id="VLr-Lf-L60"/>
                                         <constraint firstItem="9Lq-tT-Bb6" firstAttribute="centerY" secondItem="b4V-wK-9t0" secondAttribute="centerY" id="vCj-dC-z31"/>
                                         <constraint firstItem="9Lq-tT-Bb6" firstAttribute="leading" secondItem="b4V-wK-9t0" secondAttribute="leading" constant="20" id="x8h-kv-2HA"/>
@@ -278,7 +277,7 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Your Reminders" id="7Na-Fv-VaO">
-                        <barButtonItem key="rightBarButtonItem" style="plain" systemItem="add" id="SA6-nE-3ou">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="SA6-nE-3ou">
                             <color key="tintColor" red="0.36601650714874268" green="0.79615920782089233" blue="0.60242080688476562" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <connections>
                                 <segue destination="qba-Ia-LrK" kind="presentation" id="HBX-yo-AEu"/>
@@ -307,9 +306,6 @@
                         <mapView key="tableHeaderView" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" id="6P0-6O-Cxj">
                             <rect key="frame" x="0.0" y="0.0" width="375" height="200"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="200" id="fvo-cH-5td"/>
-                            </constraints>
                         </mapView>
                         <sections>
                             <tableViewSection id="Qsq-qp-CrU">
@@ -332,6 +328,9 @@
                                                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
                                                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                                            <connections>
+                                                                <outlet property="delegate" destination="LqY-tA-zxi" id="xOb-4A-wr7"/>
+                                                            </connections>
                                                         </textView>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="What do you want to be reminded about?" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XN9-va-nzb">
                                                             <rect key="frame" x="12" y="8" width="327" height="17"/>
@@ -389,6 +388,9 @@
                                                                 <segment title="When I Leave"/>
                                                             </segments>
                                                             <color key="tintColor" red="0.36186912655830383" green="0.79615151882171631" blue="0.60617947578430176" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                            <connections>
+                                                                <action selector="alertTypeValueChanged:" destination="LqY-tA-zxi" eventType="valueChanged" id="bo3-Cu-etV"/>
+                                                            </connections>
                                                         </segmentedControl>
                                                     </subviews>
                                                     <color key="backgroundColor" red="0.24665915969999999" green="0.27238923310000002" blue="0.45595729350000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -434,6 +436,9 @@
                                                         <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xiO-Vc-lZG">
                                                             <rect key="frame" x="302" y="13.666666666666668" width="51" height="31.000000000000004"/>
                                                             <color key="onTintColor" red="0.36186912659999998" green="0.79615151880000001" blue="0.60617947579999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                            <connections>
+                                                                <action selector="repeatToggleChanged:" destination="LqY-tA-zxi" eventType="valueChanged" id="JaR-WR-hlX"/>
+                                                            </connections>
                                                         </switch>
                                                     </subviews>
                                                     <color key="backgroundColor" red="0.24665915969999999" green="0.27238923310000002" blue="0.45595729350000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -483,7 +488,7 @@
                                                                 <color key="titleColor" red="0.36186912659999998" green="0.79615151880000001" blue="0.60617947579999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             </state>
                                                             <connections>
-                                                                <action selector="selectLocation" destination="LqY-tA-zxi" eventType="touchUpInside" id="IHZ-b2-0kh"/>
+                                                                <action selector="selectLocation" destination="LqY-tA-zxi" eventType="touchUpInside" id="cL3-aA-8iv"/>
                                                             </connections>
                                                         </button>
                                                     </subviews>
