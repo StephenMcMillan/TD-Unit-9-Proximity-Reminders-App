@@ -49,6 +49,8 @@ class ReminderDetailController: UITableViewController {
         } else {
             confiureForNewEntry()
         }
+        
+        configureKeyboardToolbar()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -209,6 +211,20 @@ class ReminderDetailController: UITableViewController {
         
     }
     
+    // MARK: Keyboard Toolbar for description text view
+    func configureKeyboardToolbar() {
+        let toolbar = UIToolbar(frame: CGRect(origin: .zero, size: CGSize(width: view.frame.width, height: 30.0)))
+        let flexibleItem = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let doneItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(ReminderDetailController.resignKeyboard))
+        toolbar.setItems([flexibleItem, doneItem], animated: false)
+        toolbar.sizeToFit()
+        descriptionTextView.inputAccessoryView = toolbar
+    }
+    
+    @objc func resignKeyboard() {
+        descriptionTextView.resignFirstResponder()
+    }
+    
     /// MARK: Navigation Code
     @objc func dismissNewReminder() {
         navigationController?.dismiss(animated: true, completion: nil)
@@ -218,6 +234,12 @@ class ReminderDetailController: UITableViewController {
 extension ReminderDetailController: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         reminder?.reminderDescription = textView.text
+    }
+    
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if textView.text == "I need to..." {
+            textView.text = "" // Clear the text from the generic text.
+        }
     }
 }
 
