@@ -35,7 +35,6 @@
 		696EFD4C22217F55008DC159 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		696EFD4E22218B2C008DC159 /* PermissionsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionsController.swift; sourceTree = "<group>"; };
 		696EFD502224195A008DC159 /* UserNotificationScheduler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserNotificationScheduler.swift; sourceTree = "<group>"; };
-		696EFD5222242C72008DC159 /* ProximityTestLocations.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = ProximityTestLocations.gpx; path = ../ProximityTestLocations.gpx; sourceTree = "<group>"; };
 		69868AE322248AF100540C32 /* ReminderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderCell.swift; sourceTree = "<group>"; };
 		69868AE72224A36700540C32 /* ProximityTestLocations.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = ProximityTestLocations.gpx; sourceTree = "<group>"; };
 		69A81CAF2220510D00E4F684 /* Proximity Reminders.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Proximity Reminders.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -100,7 +99,6 @@
 		69A81CA62220510D00E4F684 = {
 			isa = PBXGroup;
 			children = (
-				696EFD5222242C72008DC159 /* ProximityTestLocations.gpx */,
 				69A81CB12220510D00E4F684 /* Proximity Reminders */,
 				69A81CB02220510D00E4F684 /* Products */,
 			);

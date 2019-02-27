@@ -15,9 +15,7 @@ class ReminderListController: UITableViewController {
     // MARK: Interface Builder Outlets
     @IBOutlet weak var whenArrivingLabel: UILabel!
     @IBOutlet weak var whenDepartingLabel: UILabel!
-    
-    static let reuseIdentifier = "ReminderCell"
-    
+        
     private lazy var fetchedResultsController: NSFetchedResultsController<Reminder> = {
         let fetchRequest: NSFetchRequest<Reminder> = Reminder.fetchRequest()
         let dateSortDescriptor = NSSortDescriptor(key: "dateCreated", ascending: false)
@@ -31,18 +29,14 @@ class ReminderListController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        UNUserNotificationCenter.current().getPendingNotificationRequests { (requests) in
-            for request in requests {
-                print("REQUEST: \(request)")
-            }
-        }
-        
         do {
             try fetchedResultsController.performFetch()
             configureStats()
         } catch {
-            showErrorAlert(for: error)
+            displayAlert(for: error)
         }
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(ReminderListController.purgeDeliveredReminders), name: UIApplication.didBecomeActiveNotification, object: nil)
     }
     
     func configureStats() {
@@ -81,11 +75,6 @@ class ReminderListController: UITableViewController {
         return cell
     }
     
-    // MARK: Table View Delegate
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-    }
-    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     
         if segue.identifier == "ShowReminderDetail", let selectedTableViewIndex = tableView.indexPathForSelectedRow {
@@ -94,6 +83,38 @@ class ReminderListController: UITableViewController {
             
             reminderDetailController.reminder = fetchedResultsController.object(at: selectedTableViewIndex)
         }
+    }
+    
+    // MARK: Delete reminders with notifications that have already been fired
+    @objc func purgeDeliveredReminders() {
+        UNUserNotificationCenter.current().getPendingNotificationRequests { [weak self] (requests) in
+            // Loop through the fetchedReminders that have the repeats bool set to false. Ie any reminders where the UNUserNotification is non-repeating.
+            
+            // Unwrap the array of reminders that the fetched results controller returns
+            guard let fetchedReminders = self?.fetchedResultsController.fetchedObjects else { return }
+            
+            for reminder in fetchedReminders where reminder.repeats == false {
+                
+                // Check to see if the there are any pending notification requests that match the identifier of the current reminder in the loop. If requests does not contain a request with the reminders uuidString then the reminder does not have an associated notification scheduled so it should be deleted.
+                guard requests.contains(where: { $0.identifier == reminder.uuid.uuidString }) else {
+                    // Reminder has no associated notification so delete the reminder from core data
+                    CoreDataManager.sharedManager.managedObjectContext.delete(reminder)
+                    continue
+                }
+            }
+            
+            // Once all reminders have been validated. Save changes.
+            do {
+                try CoreDataManager.sharedManager.saveChanges()
+            } catch {
+                self?.displayAlert(for: ProximityReminderError.errorWhilstValidatingReminders)
+            }
+        }
+        
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: UIApplication.didBecomeActiveNotification, object: nil)
     }
 }
 

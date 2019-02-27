@@ -21,6 +21,9 @@ enum ProximityReminderError: Error {
     
     // Notification Errors
     case notificationsDeniedByUser
+    
+    // Core Data Errors
+    case errorWhilstValidatingReminders
 }
 
 // Allows localized descriptions to be retrieved from custom error enum.
@@ -38,6 +41,8 @@ extension ProximityReminderError: LocalizedError {
             return "This app requires location services is order to send you reminders when you arrive at or leave a location. It seems like you have denied location permissions. Please enable location services for Proximity Reminders in Settings."
         case .notificationsDeniedByUser:
             return "This app requires notification permissions is order to send you reminders when you arrive at or leave a location. It seems like you have denied notification permissions. Please enable notifications for Proximity Reminders in Settings."
+        case .errorWhilstValidatingReminders:
+            return "Something went wrong in the background. If this problem persists please reinstall the app or contact the developer."
         }
     }
 }

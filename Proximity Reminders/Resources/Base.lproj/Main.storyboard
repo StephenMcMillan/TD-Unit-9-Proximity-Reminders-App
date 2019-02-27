@@ -140,15 +140,15 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="672"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.1764705882352941" green="0.19729003310203552" blue="0.30197510123252869" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                        <view key="tableHeaderView" contentMode="scaleToFill" id="Khf-wS-IkZ">
+                        <view key="tableHeaderView" contentMode="scaleToFill" misplaced="YES" id="Khf-wS-IkZ">
                             <rect key="frame" x="0.0" y="0.0" width="375" height="94"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
-                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="b4V-wK-9t0">
+                                <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="b4V-wK-9t0">
                                     <rect key="frame" x="8" y="12" width="359" height="70"/>
                                     <subviews>
-                                        <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="center" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="9Lq-tT-Bb6">
-                                            <rect key="frame" x="20" y="9.6666666666666679" width="319" height="50.666666666666657"/>
+                                        <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" distribution="fillEqually" alignment="center" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="9Lq-tT-Bb6">
+                                            <rect key="frame" x="20" y="9.6666666666666714" width="319" height="50.666666666666664"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="SRp-7L-GUe">
                                                     <rect key="frame" x="0.0" y="0.0" width="155.66666666666666" height="50.666666666666664"/>
@@ -160,7 +160,7 @@
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="On Arrival" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jvq-fV-t0a">
-                                                            <rect key="frame" x="46" y="33.666666666666671" width="63.666666666666657" height="17"/>
+                                                            <rect key="frame" x="46" y="33.666666666666664" width="63.666666666666657" height="17"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                             <color key="textColor" red="0.67764951770000004" green="0.67732960350000004" blue="0.80403315360000005" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                             <nil key="highlightedColor"/>
@@ -177,7 +177,7 @@
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="On Departure" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TUX-5h-Hhy">
-                                                            <rect key="frame" x="33.666666666666686" y="33.666666666666671" width="88" height="17"/>
+                                                            <rect key="frame" x="33.666666666666686" y="33.666666666666664" width="88" height="17"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                             <color key="textColor" red="0.67764951770000004" green="0.67732960350000004" blue="0.80403315360000005" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                             <nil key="highlightedColor"/>
@@ -303,10 +303,21 @@
                         <color key="backgroundColor" red="0.17720970511436462" green="0.19729003310203552" blue="0.30197510123252869" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <color key="separatorColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <color key="sectionIndexBackgroundColor" red="0.17720970511436462" green="0.19729003310203552" blue="0.30197510123252869" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                        <mapView key="tableHeaderView" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" showsUserLocation="YES" id="6P0-6O-Cxj">
+                        <mapView key="tableHeaderView" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" mapType="standard" showsUserLocation="YES" id="6P0-6O-Cxj">
                             <rect key="frame" x="0.0" y="0.0" width="375" height="200"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         </mapView>
+                        <button key="tableFooterView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="zne-FL-nrh">
+                            <rect key="frame" x="0.0" y="588" width="375" height="44"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="16"/>
+                            <state key="normal" title="Delete Reminder">
+                                <color key="titleColor" red="0.89050602791878175" green="0.36274967071888725" blue="0.32487663119577914" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                            </state>
+                            <connections>
+                                <action selector="deleteTapped:" destination="LqY-tA-zxi" eventType="touchUpInside" id="sHO-wh-xX5"/>
+                            </connections>
+                        </button>
                         <sections>
                             <tableViewSection id="Qsq-qp-CrU">
                                 <cells>
@@ -527,6 +538,7 @@
                     <navigationItem key="navigationItem" title="Reminder" id="fLz-ro-Fsb"/>
                     <connections>
                         <outlet property="alertTypeSegment" destination="lLq-ze-gqE" id="9gh-WI-bsR"/>
+                        <outlet property="deleteReminderButton" destination="zne-FL-nrh" id="LW9-eV-j8a"/>
                         <outlet property="descriptionTextView" destination="ueQ-6S-S9e" id="Ssr-6m-klW"/>
                         <outlet property="locationButton" destination="EKk-Zf-gJ1" id="wmL-XG-yjb"/>
                         <outlet property="mapView" destination="6P0-6O-Cxj" id="Zkb-hf-Tpd"/>

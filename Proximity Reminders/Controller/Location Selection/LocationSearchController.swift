@@ -115,7 +115,7 @@ class LocationSearchController: UITableViewController {
         localSearch?.start() { [weak self] (response, error) in
             
             guard error == nil else {
-                self?.showErrorAlert(for: error)
+                self?.displayAlert(for: error)
                 return
             }
             

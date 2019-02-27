@@ -34,7 +34,7 @@ extension UserNotificationScheduler {
     func scheduleLocationNotification(forReminder reminder: Reminder, completion: @escaping (SchedulingResult) -> Void) {
         let notificationContent = UNMutableNotificationContent()
         let uuid = UUID()
-        
+                
         // Assemble the content of the notification. Example title: Now Arriving at George Best Belfast City Airport
         let titlePrefix = (reminder.alertWhenLeaving) ? "Now Leaving " : "Now Arriving at "
         notificationContent.title = titlePrefix + reminder.location.name

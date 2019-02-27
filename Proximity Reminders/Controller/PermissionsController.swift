@@ -52,7 +52,7 @@ class PermissionsController: UIViewController, UserNotificationScheduler {
         do {
             try locationManager.requestAuthorization()
         } catch {
-            showErrorAlert(for: error)
+            displayAlert(for: error)
         }
     }
     
@@ -72,13 +72,13 @@ class PermissionsController: UIViewController, UserNotificationScheduler {
         
         getNotificationAuthorizationStatus { [weak self] (authorizationStatus) in
             guard authorizationStatus != .denied else {
-                self?.showErrorAlert(for: ProximityReminderError.notificationsDeniedByUser)
+                self?.displayAlert(for: ProximityReminderError.notificationsDeniedByUser)
                 return
             }
             
             self?.requestNotificationPermissions(completion: { [weak self] (isAuthorized, error) in
                 if let error = error {
-                    self?.showErrorAlert(for: error)
+                    self?.displayAlert(for: error)
                 }
                 self?.configureNotificationButton(isAuthorized: isAuthorized)
             })

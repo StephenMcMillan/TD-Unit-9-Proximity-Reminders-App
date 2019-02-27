@@ -49,7 +49,6 @@ extension LocationSuggestionsController: UISearchResultsUpdating {
         
         // The text from the search bar needs to be passed through to the search completer query
         searchCompleter.queryFragment = searchText
-        print(searchText)
     }
 }
 
