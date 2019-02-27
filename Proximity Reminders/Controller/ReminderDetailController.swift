@@ -14,7 +14,7 @@ import MapKit
 import UserNotifications
 
 class ReminderDetailController: UITableViewController {
-    
+
     // MARK: Interface Builder Outlets
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var descriptionTextView: UITextView!

@@ -8,9 +8,11 @@
 
 import CoreLocation
 
+extension NSNotification.Name {
+    static let locationWhenInUsePermissionGranted = NSNotification.Name("LocationWhenInUsePermissionGranted")
+}
+
 class LocationManager: NSObject {
-    
-    static let LocationWhenInUsePermissionGranted = NSNotification.Name("LocationWhenInUsePermissionGranted")
     
     private lazy var locationManager: CLLocationManager = {
         let locationManager = CLLocationManager()
@@ -52,7 +54,7 @@ extension LocationManager: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         
         if status == .authorizedWhenInUse {
-            NotificationCenter.default.post(name: LocationManager.LocationWhenInUsePermissionGranted, object: nil)
+            NotificationCenter.default.post(name: .locationWhenInUsePermissionGranted, object: nil)
         }
     }
 }

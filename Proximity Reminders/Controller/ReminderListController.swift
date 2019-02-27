@@ -39,7 +39,6 @@ class ReminderListController: UITableViewController {
         
         do {
             try fetchedResultsController.performFetch()
-            tableView.reloadData()
             configureStats()
         } catch {
             showErrorAlert(for: error)

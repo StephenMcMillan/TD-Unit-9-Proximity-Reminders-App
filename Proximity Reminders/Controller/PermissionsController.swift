@@ -27,7 +27,7 @@ class PermissionsController: UIViewController, UserNotificationScheduler {
         
         // If the user has not already authroized location permissions then setup the button accordingly and add an observer to listen for the permission granted notification from the LocationManager class.
         if !LocationManager.isAuthorized {
-            NotificationCenter.default.addObserver(self, selector: #selector(PermissionsController.configureLocationButton), name: LocationManager.LocationWhenInUsePermissionGranted, object: nil)
+            NotificationCenter.default.addObserver(self, selector: #selector(PermissionsController.configureLocationButton), name: .locationWhenInUsePermissionGranted, object: nil)
         }
         
         configureLocationButton()
@@ -93,6 +93,6 @@ class PermissionsController: UIViewController, UserNotificationScheduler {
     
     // Deint to remove notification center observers
     deinit {
-        NotificationCenter.default.removeObserver(self, name: LocationManager.LocationWhenInUsePermissionGranted, object: nil)
+        NotificationCenter.default.removeObserver(self, name: .locationWhenInUsePermissionGranted, object: nil)
     }
 }
